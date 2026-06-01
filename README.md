@@ -3,10 +3,10 @@
 This guide shows three practical ways to get started with LLMs for coding through UiO's Azure-based setup:
 
 1. direct API access from your own code
-2. Roo Code in VS Code
-3. the Codex app
+2. An extension in VS Code (Zoo/Roo code, Codex)
+3. the Codex app (Windows/Mac, no release for Linux at the time of writing)
 
-The guide is based on workshop notes, and tested setups for Windows and Mac OS in Jan-March 2026. Rapid development in tools means that some approaches may soon/already be outdated.
+The guide is based on workshop notes, personal try and error, and tested setups for Windows and Mac OS in Jan-March 2026. Rapid development in tools means that some approaches may soon/already be outdated.
 
 ## Before You Start
 
@@ -45,7 +45,7 @@ Important:
 
 ## Option 1: Direct API Access From Code
 
-This is the suggested way if you want to build your own scripts, notebooks, or applications. I have not tested this.
+This is the suggested way if you want to build your own scripts, notebooks, or applications. 
 
 ### Optional: store credentials as environment variables
 
@@ -116,19 +116,24 @@ Notes:
 - if commands run in the wrong Python environment, call them explicitly, for example `mamba run -n YOUR_ENV python script.py`
 - many clients expect the deployment name, not just the model family name
 
-## Option 2: Roo Code in VS Code
+## Option 2: Extension in VS Code
 
-Roo is an extension that can be installed for VS Code. It can run locally or in a SSH server session. This is probably the most convenient route for people who want LLM support directly inside VS Code. 
+There are extension that can be installed for VS Code that can run locally or in a SSH server session. This is probably the most convenient route for people who want LLM support directly inside VS Code. 
+We have tested Zooo (previously Roo) Code and the Codex extension.
 
-- install the Roo extension
+### Zoo 
+[Zoo Code](https://www.zoocode.dev/) is a community-driven version of Roo, who discontinued their extension. The extension works with VS Code and lets you use your own model rather than VS Code's Copilot. 
+
+Setup:
+- install the Zoo extension
 - click on the Roo (Kangaroo) icon in the left sidebar
 
-### What to enter in Roo
+**What to enter in Zoo**
 - base URL: your Azure endpoint or base URL
 - API key: your Azure API key
 - model: your Azure deployment name
 
-Experience shows that Roo and the UiO Azure setup changed since the [LLM workshop tutorial from January 2026](https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html)
+Experience shows that Zoo/Roo and the UiO Azure setup changed since the [LLM workshop tutorial from January 2026](https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html)
 - older Roo versions used a `3rd party provider` path
 - in newer versions you may need to use `OpenAI Compatible` or `OpenAI`
 - different people got different models to work at different times
@@ -146,9 +151,12 @@ Setup that worked in March 2026:
 
 Treat this as a tested guidance rather than a guarantee that every menu label will look the same in your version/at the time you try this.
 
+### Codex extension
+(Guide to be added)
+
 ## Option 3: Codex App or Codex CLI
 
-The Codex app is a good fit for users who want a standalone coding agent rather than editor-only integration. This is fairly hands-off any code, and possibly more suitable for (small) stand-alone tasks rather than explorative coding in big projects. 
+The [Codex app ](https://developers.openai.com/codex/quickstart?setup=app) is a good fit for users who want a standalone coding agent rather than editor-only integration. This is fairly hands-off any code, and possibly more suitable for (small) stand-alone tasks rather than explorative coding in big projects. The app is only available for Windows/Mac OS at the time of writing. 
 
 The [Codex CLI](https://developers.openai.com/codex/cli) is a terminal-based program with the same functionality. It is similar to Claude Code.
 
@@ -180,6 +188,7 @@ When you use both, they share configuration and sessions.
 - [Information about UiO's GPT access, Link to the Azure ordering process](https://www.uio.no/tjenester/it/ki/gpt-uio/)
 - [UiO Foundry/Azure Model Deployment](https://ai.azure.com/)
 - [UiO Azure Portal (monitor your usage/costs)](https://portal.azure.com)
+- [Codex](https://developers.openai.com/codex/)
 
 
 ## Troubleshooting
@@ -197,7 +206,7 @@ Check:
 
 You are probably using a different environment than the one where `openai` was installed.
 
-### Roo or Codex cannot find the model
+### Zoo or Codex cannot find the model
 
 Try the Azure deployment name exactly as it appears in Azure AI Foundry. Try a different model. 
 
@@ -207,13 +216,3 @@ Try the Azure deployment name exactly as it appears in Azure AI Foundry. Try a d
 - use environment variables or a secret manager
 - remove secrets from screenshots and shared notes
 - rotate any key that has been exposed in plain text
-
-## Suggested Next Additions
-
-If you want to expand this guide later, useful next additions would be:
-
-- add a guide for Matlab and R users/tools
-- a `python_quickstart.py` example file in the repository
-- a short `curl` example
-- screenshots from Azure AI Foundry and Roo
-- a short FAQ with the most common setup mistakes
