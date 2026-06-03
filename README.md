@@ -125,7 +125,11 @@ We have tested Zoo (previously Roo) Code and the Codex extension.
 Codex is OpenAI's agent solution and designed to work with OpenAI's models. 
 
 Setup:
-- in a terminal, set the environment variable AZURE_OPENAI_API_KEY as described above (can be done on server side for Remote-SSH coding)
+- In a terminal, set the environment variable AZURE_OPENAI_API_KEY as described above (can be done on server side for Remote-SSH coding).
+- Additionally, it seems necessary (possibly on linux only?) to create a .env file and set the API key there in your HOME/.codex folder (on linux: ~/.codex/.env):
+```bash
+AZURE_OPENAI_API_KEY="REPLACE_WITH_REAL_KEY"
+```
 - install the Codex extension and open it (the icon may be on the top/right, not in the left sidebar)
 - **do not sign in**, but choose "Use API Key". Put in anything and click continue until you seem to be logged in.
 - Go to settings and open the config.toml. Paste the information as shown below for option 3. **Important:** do not paste your key but keep the reference to the environment variable "AZURE_OPENAI_API_KEY"
