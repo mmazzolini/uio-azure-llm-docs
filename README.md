@@ -131,9 +131,9 @@ Setup:
 ```bash
 AZURE_OPENAI_API_KEY="REPLACE_WITH_REAL_KEY"
 ```
-- Install the Codex extension iin VSCode and open it (the icon is on the top/right, not in the left sidebar)
+- Install the Codex extension in VSCode and open it (the icon is on the top/right, not in the left sidebar)
 - **do not sign in**, but choose "Use API Key". Put in a dummy string and click continue until you seem to be logged in.
-- Go to settings and open the config.toml. Paste the information as shown below for option 3. **Important:** do not paste your key but keep the reference to the environment variable "AZURE_OPENAI_API_KEY" as set above
+- Go to settings and open the config.toml. Enter the information as shown below for option 3. **Important:** do not paste your key but keep the reference to the environment variable "AZURE_OPENAI_API_KEY" as set above
 - close and re-open the extension
 
 The extension shares its settings with the app/client versions described in option 3, and sessions will be shared between them on the same machine. Detailed setup instructions for Codex are available [here](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html) (access requires UiO account login).
