@@ -2,32 +2,32 @@
 
 This guide shows three practical ways to get started with LLMs for coding through UiO's Azure-based setup:
 
-1. direct API access from your own code
-2. An extension in VS Code (Zoo/Roo code, Codex)
-3. the Codex app (Windows/Mac, no release for Linux at the time of writing)
+1. Direct API access from your own code
+2. Extensions to VS Code (Zoo/Roo code, Codex)
+3. Agent use through the Codex app/client (Windows/Mac, no release for Linux at the time of writing)
 
-The guide is based on workshop notes, personal try and error, and tested setups for Windows and Mac OS in Jan-March 2026. Rapid development in tools means that some approaches may soon/already be outdated.
+At UiO, the Azure route is useful when you want LLM access through an institutionally managed setup rather than a personal public API account. This allows you to use LLMs on green and yellow data, and to bill associated costs to a project rather than paying personally.
 
-## Before You Start
+The guide is based on workshop notes, personal try and error, and tested setups for Windows, Linux and Mac OS in spring 2026 (but not all setups were tested on all platforms). Rapid development in tools means that some approaches may soon/already be outdated.
 
-You will need:
+## Requirements
+
+For this to work, you will need:
 
 - access to Azure AI Foundry, for this you need to go through [UiO's GPT/Azure ordering process](https://www.uio.no/tjenester/it/ki/gpt-uio/) ("bestill API-tilgang", requires a project that can be billed, the project PI can request access for several users in the project. Experience shows that this can take days to months to approve.)
-- a deployed model in your Azure project
+- a deployed model in your Azure project (see guide below)
 - the deployment name
 - the endpoint or base URL
 - your API key
 
-At UiO, the Azure route is useful when you want LLM access through an institutionally managed setup rather than a personal public API account. This allows you to use LLMs on green and yellow data, and to bill associated costs to a project rather than paying personally.
-
-## Shared Azure Setup
+## Azure Setup
 
 In Azure AI Foundry:
 
 1. Sign in to [UiO azure](https://ai.azure.com/)
 2. Open your project.
 3. Go to the models and endpoints area (scroll down left to My assets -> models + endpoints -> new model)
-4. Deploy the model you want to use. At the time of writing, gpt-5.4 was the one we got to work. 
+4. Deploy the model you want to use. At the time of writing, gpt-5.4 was the one we got to work smoothly. gpt-5.5 seems to work as well but costs considerably more.
 5. Note: If the model shows a lock, you have to request access by filling in the provided form. It took ca. one hour to be granted access (and access was granted to a series of gpt 5 models)
 6. You will need the deployment name (the model name), endpoint information (Target URI), and API key. Endpoint information is shared for all models. Note: delete everything starting from /responses... and replace with /v1, so that the URL looks like this: "https://<your_project>.openai.azure.com/openai/v1"
 
@@ -118,9 +118,9 @@ Notes:
 - many clients expect the deployment name, not just the model family name
 
 
-## Option 2: Extension in VS Code
+## Option 2: Extensions in VS Code
 
-There are extension that can be installed for VS Code that can run locally or in an SSH server session. This is probably the most convenient route for people who want LLM support directly inside VS Code. 
+There are extensions that can be installed for VS Code that run locally or in an SSH server session. This is probably the most convenient route for people who want LLM support directly inside VS Code. 
 We have tested Zoo (previously Roo) Code and the Codex extension.
 
 ### Codex extension
@@ -132,41 +132,39 @@ Setup:
 AZURE_OPENAI_API_KEY="REPLACE_WITH_REAL_KEY"
 ```
 - Install the Codex extension in VSCode and open it (the icon is on the top/right, not in the left sidebar)
-- **do not sign in**, but choose "Use API Key". Put in a dummy string and click continue until you seem to be logged in.
-- Go to settings and open the config.toml. Enter the information as shown below for option 3. **Important:** do not paste your key but keep the reference to the environment variable "AZURE_OPENAI_API_KEY" as set above
-- close and re-open the extension
+- **Do not sign in**, but choose "Use API Key". Put in a dummy string and click continue until you seem to be logged in.
+- Go to settings and open the config.toml. Enter the information as shown below for option 3. **Important:** do not paste your key but keep the reference to the environment variable "AZURE_OPENAI_API_KEY" as set above.
+- Close and re-open the extension
 
-The extension shares its settings with the app/client versions described in option 3, and sessions will be shared between them on the same machine. Detailed setup instructions for Codex are available [here](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html) (access requires UiO account login).
+The extension shares its settings with the app/client versions described in option 3, and sessions should be shared between them on the same machine. Detailed setup instructions for Codex are available [here](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html) (access requires UiO account login).
 
-### Zoo 
-[Zoo Code](https://www.zoocode.dev/) is a community-driven version of Roo, who discontinued their extension. The extension works with VS Code and lets you use your own model rather than VS Code's Copilot. It is not limited to OpenAI models.
+### Zoo Code extension
+[Zoo Code](https://www.zoocode.dev/) is a community-driven version of Roo, who discontinued their extension. The extension works with VS Code and lets you use your own model (instead of the built-in Copilot setup). It is not limited to OpenAI models.
 
 Setup:
-- install the Zoo extension
-- click on the Zoo (Zebra) icon in the left sidebar
+- Install the Zoo extension
+- Click on the Zoo (Zebra) icon in the left sidebar, then open the settings.
+- You can store several model setups here by creating a new Configuration Profile for each. 
 
 **What to enter in Zoo**
-- base URL: your Azure endpoint or base URL
-- API key: your Azure API key
-- model: your Azure deployment name
+Setup that worked in June 2026 for Zoo (and March 2026 for Roo):
+- config profile: a custom name, call it the same as your deployed model on Azure to avoid confusion.
+- Provider: `OpenAI`
+- check `use custom base URL`, and paste the URL/endpoint from Azure. Note: truncate starting from /responses and replace this with /v1, so that it takes the form "https://YOUR-RESOURCE.openai.azure.com/openai/v1/"
+- OpenAPI key -> paste your Azure API key from Azure
+- service tier: standard
+- model: gpt-5.4 (Note: this has to be deployed in Azure first. Use your Azure deployment name here.)
+- reasoning effort: kept empty (none selected)
+- verbosity: medium
 
-Experience shows that Zoo/Roo and the UiO Azure setup changed since the [LLM workshop tutorial from January 2026](https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html)
+
+Treat this as a tested guidance rather than a guarantee that every menu label will look the same in your version/at the time you try this.
+
+Experience shows that Zoo/Roo and the UiO Azure setup changed rapidly during spring 2026 and the [LLM workshop tutorial from January 2026](https://lexnederbragt.github.io/dsc26-llm-code/tutorial.html) are already outdated. Some noted changes/differences that may help with debugging:
 - older Roo versions used a `3rd party provider` path
 - in newer versions you may need to use `OpenAI Compatible` or `OpenAI`
 - different people got different models to work at different times
 - Azure URLs changed between January and March
-
-Setup that worked in March 2026:
-- config profile: a custom name
-- Provider: `OpenAI`
-- check `use custom base URL`, and paste the URL from Azure. Note: I had to delete everything starting from /responses... in the URL, thus only keeping the first half of the URL.
-- OpenAPI key -> paste from Azure
-- service tier: standard
-- model: gpt-5.4 (Note: this has to be deployed in Azure first. I tried other models, but they didn't work)
-- reasoning effort: kept empty (none selected)
-- verbosity: medium 
-
-Treat this as a tested guidance rather than a guarantee that every menu label will look the same in your version/at the time you try this.
 
 
 ## Option 3: Codex App or Codex CLI
@@ -175,7 +173,8 @@ The [Codex app ](https://developers.openai.com/codex/quickstart?setup=app) is a 
 
 The [Codex CLI](https://developers.openai.com/codex/cli) is a terminal-based program with the same functionality. It is similar to Claude Code and available for all platforms.
 
-UiO-targeted setup instructions for Codex are available [here](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html) (access requires UiO account login).
+UiO-targeted setup instructions for Codex are available [here](https://pages.github.uio.no/alexajo/agent-skolen/setup_codex.html) (access requires UiO account login). This resource also provides a guide on how to make Codex connect to tools with API access such as Canvas or Nettskjema.
+
 In March, the workflow to configure the Codex App looked like this:
 - Install the Codex app from Open AI (root access required for this to work properly. Note it will ask for root authorisation only when trying it out first time)
 - In a terminal, set the environment variable AZURE_OPENAI_API_KEY as described above 
